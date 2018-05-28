@@ -14,7 +14,6 @@ public class SpringBootApp implements CommandLineRunner {
     @Autowired
     HomeController homeController;
 
-
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
         SpringApplication.run(SpringBootApp.class, args);
