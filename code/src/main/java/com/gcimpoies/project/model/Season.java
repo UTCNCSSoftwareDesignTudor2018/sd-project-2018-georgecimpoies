@@ -1,18 +1,33 @@
 package com.gcimpoies.project.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "seasons")
 public class Season {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "season_id", updatable = false, nullable = false)
     private int id;
+
+    @Column(name = "season_number")
     private int seasonNumber;
-    private List<Episode> episodes;
+
+    @Column(name = "season_description")
     private String description;
+
+    @OneToMany(mappedBy = "episodes", fetch = FetchType.EAGER)
+    private List<Episode> episodes;
 
     public Season(int id, int seasonNumber, List<Episode> episodes, String description) {
         this.id = id;
         this.seasonNumber = seasonNumber;
         this.episodes = episodes;
         this.description = description;
+    }
+
+    public Season() {
     }
 
     public int getId() {

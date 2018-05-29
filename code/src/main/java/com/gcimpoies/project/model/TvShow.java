@@ -1,11 +1,23 @@
 package com.gcimpoies.project.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "tvshows")
 public class TvShow {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
+
+    @Column(name = "show_name")
     private String showName;
+
+    @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "seasons", fetch = FetchType.EAGER)
     private List<Season> seasons;
 
     public TvShow(int id, String showName, String description, List<Season> seasons) {
@@ -13,6 +25,9 @@ public class TvShow {
         this.showName = showName;
         this.description = description;
         this.seasons = seasons;
+    }
+
+    public TvShow() {
     }
 
     public int getId() {
