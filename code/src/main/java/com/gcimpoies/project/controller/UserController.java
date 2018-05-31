@@ -79,12 +79,7 @@ public class UserController implements Observer {
                 int col = userView.userTable.columnAtPoint(point);
                 String title = (String) userView.userTable.getValueAt(row, col);
                 if (e.getClickCount() == 1 && userView.userTable.getSelectedRow() != -1) {
-/*                    try {
-                        client.messageFromGUI("READ_ARTICLE", title);
-                    } catch (IOException | JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }*/
+
                 }
             }
 

@@ -13,7 +13,7 @@ public class AdminView {
     public JTextField passwordNewText;
     public JTextField tvShowName;
     public JTextField tvShowDescription;
-
+    public JTextField numberOfSeasons;
 
     public JButton updateAdminBtn;
     public JButton deleteAdminBtn;
@@ -73,8 +73,12 @@ public class AdminView {
         adminPanel.add(tvShowName);
 
         tvShowDescription = new JTextField("TV Show Description");
-        tvShowDescription.setBounds(10, 150, 120, 20);
+        tvShowDescription.setBounds(10, 80, 120, 20);
         adminPanel.add(tvShowDescription);
+
+        numberOfSeasons = new JTextField("Number of seasons");
+        numberOfSeasons.setBounds(10, 110, 120, 20);
+        adminPanel.add(numberOfSeasons);
 
         updateAdminBtn = new JButton("Update profile");
         updateAdminBtn.setBounds(140, 350, 120, 20);

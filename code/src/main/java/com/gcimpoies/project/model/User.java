@@ -37,10 +37,12 @@ public class User {
     }
 
     public User() {
-        this.userId = 2;
-        this.name = "Blank";
-        this.username = "Blank";
-        this.password = "Blank";
+    }
+
+    private User(UserBuilder userBuilder){
+        this.name = userBuilder.fullName;
+        this.username = userBuilder.username;
+        this.password = userBuilder.password;
         this.favourites = new ArrayList<>();
         this.lastLogin = new Date();
     }
@@ -91,5 +93,30 @@ public class User {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public static class UserBuilder {
+        private final String fullName;
+        private String username;
+        private String password;
+
+        public UserBuilder(String fullName) {
+            this.fullName = fullName;
+        }
+
+        public UserBuilder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+
     }
 }
