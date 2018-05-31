@@ -1,6 +1,7 @@
 package com.gcimpoies.project.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -8,8 +9,8 @@ import java.util.List;
 public class TvShow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    @Column(name = "tvshow_id", updatable = false, nullable = false)
+    private int tvShowId;
 
     @Column(name = "show_name")
     private String showName;
@@ -17,25 +18,36 @@ public class TvShow {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "seasons", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tvShowId", fetch = FetchType.EAGER)
     private List<Season> seasons;
 
-    public TvShow(int id, String showName, String description, List<Season> seasons) {
-        this.id = id;
+    @JoinColumn(name="user_id", nullable=false)
+    private int userId;
+
+    public TvShow(String showName, String description, int userId) {
         this.showName = showName;
         this.description = description;
-        this.seasons = seasons;
+        this.seasons = new ArrayList<>();
+        this.userId = userId;
     }
 
     public TvShow() {
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTvShowId() {
+        return tvShowId;
+    }
+
+    public void setTvShowId(int id) {
+        this.tvShowId = id;
     }
 
     public String getShowName() {

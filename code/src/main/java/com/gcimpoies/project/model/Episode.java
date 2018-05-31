@@ -9,7 +9,7 @@ public class Episode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "episode_id", updatable = false, nullable = false)
-    private int id;
+    private int episodeId;
 
     @Column(name = "episode_number")
     private String episodeNumber;
@@ -17,21 +17,32 @@ public class Episode {
     @Column(name = "episode_description")
     private String description;
 
-    public Episode(int id, String episodeNumber, String description) {
-        this.id = id;
+    @JoinColumn(name="season_id", nullable=false)
+    private int seasonId;
+
+    public Episode(String episodeNumber, String description, int seasonId) {
         this.episodeNumber = episodeNumber;
         this.description = description;
+        this.seasonId = seasonId;
     }
 
     public Episode() {
     }
 
-    public int getId() {
-        return id;
+    public int getSeasonId() {
+        return seasonId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSeasonId(int seasonId) {
+        this.seasonId = seasonId;
+    }
+
+    public int getEpisodeId() {
+        return episodeId;
+    }
+
+    public void setEpisodeId(int id) {
+        this.episodeId = id;
     }
 
     public String getEpisodeNumber() {

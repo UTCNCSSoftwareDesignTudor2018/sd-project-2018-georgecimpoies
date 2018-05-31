@@ -8,7 +8,7 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id", updatable = false, nullable = false)
-    private int id;
+    private int adminId;
 
     @Column(name = "admin_name")
     private String name;
@@ -22,19 +22,18 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(int id, String name, String username, String password) {
-        this.id = id;
+    public Admin(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public int getAdminId() {
+        return adminId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAdminId(int id) {
+        this.adminId = id;
     }
 
     public String getName() {

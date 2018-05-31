@@ -1,6 +1,7 @@
 package com.gcimpoies.project.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", updatable = false, nullable = false)
-    private int id;
+    private int userId;
 
     @Column(name = "full_name")
     private String name;
@@ -24,27 +25,32 @@ public class User {
     @Column(name = "last_loggin")
     private Date lastLogin;
 
-    @OneToMany(mappedBy = "tvshows", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
     private List<TvShow> favourites;
 
-    public User(int id, String name, String username, String password, List<TvShow> favourites, Date lastLogin) {
-        this.id = id;
+    public User(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.favourites = favourites;
-        this.lastLogin = lastLogin;
+        this.favourites = new ArrayList<>();
+        this.lastLogin = new Date();
     }
 
     public User() {
+        this.userId = 2;
+        this.name = "Blank";
+        this.username = "Blank";
+        this.password = "Blank";
+        this.favourites = new ArrayList<>();
+        this.lastLogin = new Date();
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int id) {
+        this.userId = id;
     }
 
     public String getName() {
