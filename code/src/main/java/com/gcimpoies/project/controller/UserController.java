@@ -1,122 +1,93 @@
 package com.gcimpoies.project.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
-
+import com.gcimpoies.project.model.User;
+import com.gcimpoies.project.service.TvShowService;
 import com.gcimpoies.project.service.UserService;
-import com.gcimpoies.project.view.AdminView;
 import com.gcimpoies.project.view.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
 @Controller
-public class UserController {
-
-    private UserView userView;
+public class UserController implements Observer {
     @Autowired
-    UserService studentService;
+    UserView userView;
     @Autowired
-    AdminView adminView;
+    UserService userService;
+    @Autowired
+    TvShowService tvShowService;
 
-    public UserController(UserView userView, UserService userService) {
+    public UserController(UserView userView) {
         this.userView = userView;
-/*        userView.setStudentViewInfoListener(new StudentViewInfoListener());
-        userView.setStudentCreateProfileListener(new StudentCreateProfileListener());
-        userView.setStudentUpdateProfileListener(new StudentUpdateProfileListener());
-        userView.setStudentViewCoursesListener(new StudentViewCoursesListener());
-        userView.setStudentViewGradesListener(new StudentViewGradesListener());*/
+        userView.setUserTableListener(new UserTableListener());
+    }
 
+    @Override
+    public void update() {
+    }
+
+    public User createProfile(User user) {
+        return userService.createUser(user);
+    }
+
+ /*   public void runClient(UserController userController, ArticleService articleService) throws JSONException {
+        client = new Client(userController);
+        try {
+            client.run();
+            articleService.getObserverList().add(userController);
+            client.messageFromGUI("GET_ALL_ARTICLES", "");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     public void setUserView(UserView userView) {
         this.userView = userView;
     }
 
-    /*private class StudentViewInfoListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == userView.viewStudentInfoBtn) {
-                String studentName = "";
-                studentName = userView.studentNameText.getText();
-                userView.areaInfo.setText(studentService.getStudentByName(studentName).toString());
-            }
+    public void displayArticleTitles(String articles)
+            throws JSONException, JsonParseException, JsonMappingException, IOException {
+        userView.tableModel.getDataVector().removeAllElements();
+        userView.tableModel.fireTableDataChanged();
+        List<Article> articleList = JsonUtil.convertJsonToList(articles);
+        for (Article a : articleList) {
+            userView.tableModel.addRow(new Object[] { a.getArticleTitle() });
         }
     }
 
-    private class StudentCreateProfileListener implements ActionListener {
-        String name = "";
-        String card = "";
-        String pnc = "";
-        String address = "";
-        String group = "";
+    public void displayArticleBody(String jsonArticle)
+            throws JSONException, JsonParseException, JsonMappingException, IOException {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == userView.createStudentBtn) {
-                int optionPaneResult = userView.createOptionPane();
-                if (optionPaneResult == JOptionPane.OK_OPTION) {
-                    name = userView.profileNameText.getText();
-                    card = userView.profileCardText.getText();
-                    pnc = userView.profilePersonalNrText.getText();
-                    address = userView.profileAddressText.getText();
-                    group = userView.profileGroupText.getText();
-                } else {
-                    System.out.println("Cancelled");
-                }
-                StudentDto studentDto = new StudentDto(name, card, pnc, address, group);
-                studentService.createStudent(studentDto);
-            }
-
-        }
-    }
-
-    private class StudentUpdateProfileListener implements ActionListener {
-        int id = 0;
-        String group = "";
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == userView.updateStudentBtn) {
-                id = Integer.parseInt(userView.editStudentIdText.getText());
-                group = userView.editStudentGroupText.getText();
-                studentService.updateGroup(id, group);
-                userView.areaInfo.setText(studentService.getStudentById(id).toString());
-            }
-
-        }
-    }
-
-    private class StudentViewCoursesListener implements ActionListener {
-        int id = 0;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == userView.viewStudentCoursesBtn) {
-                id = Integer.parseInt(userView.editStudentIdText.getText());
-                userView.areaInfo.setText(studentService.getCoursesByStudentId(id).toString()
-                        .substring(1, studentService.getCoursesByStudentId(id).toString().length() - 1)
-                        .replace(",", "\n"));
-            }
-
-        }
-    }
-
-    private class StudentViewGradesListener implements ActionListener {
-        int id = 0;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == userView.viewStudentGradesBtn) {
-                id = Integer.parseInt(userView.editStudentIdText.getText());
-                userView.areaInfo.setText(studentService.getGradesByStudentId(id).toString()
-                        .substring(1, studentService.getGradesByStudentId(id).toString().length() - 1)
-                        .replace(",", "\n"));
-            }
-
-        }
+        Article article = JsonUtil.convertJsonToJava(jsonArticle, Article.class);
+        userView.areaInfo.setText("");
+        userView.areaInfo
+                .append("Abstract: \n" + article.getArticleAbstract() + "\n\n" + article.getArticleBody() + "\n");
     }*/
 
+    private class UserTableListener extends MouseAdapter {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getSource() == userView.userTable) {
+
+                Point point = e.getPoint();
+                int row = userView.userTable.rowAtPoint(point);
+                int col = userView.userTable.columnAtPoint(point);
+                String title = (String) userView.userTable.getValueAt(row, col);
+                if (e.getClickCount() == 1 && userView.userTable.getSelectedRow() != -1) {
+/*                    try {
+                        client.messageFromGUI("READ_ARTICLE", title);
+                    } catch (IOException | JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }*/
+                }
+            }
+
+        }
+    }
 }
