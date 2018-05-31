@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
     public Admin save(Admin admin);
 
-    public Optional<Admin> findById(Integer id);
+    public Optional<Admin> findByAdminId(Integer adminId);
 
-    public Optional<Admin> findAdminByUsernameAndPassword(String username, String password);
+    public Admin findAdminByUsername(String username);
 
-    public void deleteAdminById(int id);
+    public void deleteAdminByAdminId(int adminId);
 }

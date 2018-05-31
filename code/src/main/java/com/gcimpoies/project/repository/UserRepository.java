@@ -14,12 +14,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     public User save(User user);
 
-    public Optional<User> findById(Integer id);
+    public Optional<User> findByUserId(Integer userId);
 
     public Optional<User> findUserByUsernameAndPassword(String username, String password);
 
-    public void deleteUserById(int id);
-
-    @Query("SELECT t FROM TvShow t WHERE t.userUserId = :userId")
-    public List<TvShow> getFavourites(@Param("userId") int userId);
+    public void deleteUserByUserId(int userId);
 }
