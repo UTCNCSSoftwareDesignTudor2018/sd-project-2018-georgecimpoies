@@ -14,15 +14,14 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User createUser(int id, String name, String username, String password, List<TvShow> favourites, Date lastLogin) {
-        User user = new User(id, name, username, password, favourites, lastLogin);
+    public User createUser(User user) {
         userRepository.save(user);
         return user;
     }
 
     public User findById(int id) {
-        if (userRepository.findById(id).isPresent()) {
-            return userRepository.findById(id).get();
+        if (userRepository.findByUserId(id).isPresent()) {
+            return userRepository.findByUserId(id).get();
         } else return null;
     }
 
@@ -46,10 +45,6 @@ public class UserService {
     }
 
     public void delete(int id) {
-        userRepository.deleteUserById(id);
-    }
-
-    public List<TvShow> getFavourites(int id) {
-        return userRepository.getFavourites(id);
+        userRepository.deleteUserByUserId(id);
     }
 }

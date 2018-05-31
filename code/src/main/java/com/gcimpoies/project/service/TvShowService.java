@@ -13,15 +13,14 @@ public class TvShowService {
     @Autowired
     TvShowRepository tvShowRepository;
 
-    public TvShow createTvShow(int id, String tvShowname, String tvShowDescription, List<Season> seasons) {
-        TvShow tvShow = new TvShow(id, tvShowname, tvShowDescription, seasons);
+    public TvShow createTvShow(TvShow tvShow) {
         tvShowRepository.save(tvShow);
         return tvShow;
     }
 
     public TvShow findById(int id) {
-        if (tvShowRepository.findById(id).isPresent()) {
-            return tvShowRepository.findById(id).get();
+        if (tvShowRepository.findByTvShowId(id).isPresent()) {
+            return tvShowRepository.findByTvShowId(id).get();
         } else return null;
     }
 
@@ -38,10 +37,11 @@ public class TvShowService {
     }
 
     public void delete(int id) {
-        tvShowRepository.deleteTvShowById(id);
+        tvShowRepository.deleteTvShowByTvShowId(id);
     }
 
-    public List<Season> getEpisodes(int id) {
-        return tvShowRepository.getSeasons(id);
+    public List<TvShow> getFavourites(int userId){
+        return tvShowRepository.findAllByUserId(userId);
     }
+
 }

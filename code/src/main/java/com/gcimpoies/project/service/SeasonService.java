@@ -7,21 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeasonService {
     @Autowired
     SeasonRepository seasonRepository;
 
-    public Season createSeason(int id, int seasonNumber, String seasonDescription, List<Episode> episodes){
-        Season season = new Season(id, seasonNumber, episodes, seasonDescription);
+    public Season createSeason(Season season){
         seasonRepository.save(season);
         return season;
     }
 
     public Season findById(int id) {
-        if (seasonRepository.findById(id).isPresent()) {
-            return seasonRepository.findById(id).get();
+        if (seasonRepository.findBySeasonId(id).isPresent()) {
+            return seasonRepository.findBySeasonId(id).get();
         } else return null;
     }
 
@@ -38,10 +38,10 @@ public class SeasonService {
     }
 
     public void delete(int id) {
-        seasonRepository.deleteSeasonById(id);
+        seasonRepository.deleteSeasonBySeasonId(id);
     }
 
-    public List<Episode> getEpisodes(int id) {
-        return seasonRepository.getEpisodes(id);
+    public List<Season> getSeasons(int tvShowId){
+        return seasonRepository.findAllByTvShowId(tvShowId);
     }
 }
