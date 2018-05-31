@@ -1,146 +1,104 @@
 package com.gcimpoies.project.view;
 
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import com.gcimpoies.project.view.HomeView;
 import org.springframework.stereotype.Component;
+
+import javax.swing.*;
+import java.awt.event.ActionListener;
 
 @Component
 public class AdminView {
+    public JFrame adminFrame;
+    public JPanel adminPanel;
+
+    public JTextField passwordNewText;
+    public JTextField tvShowName;
+    public JTextField tvShowDescription;
+
+
+    public JButton updateAdminBtn;
+    public JButton deleteAdminBtn;
+    public JButton chooseRelatedArticlesBtn;
+    public JButton addTvShowBtn;
+
+    public JScrollPane listScrollPane;
+
+    public JList<String> relatedList;
+    public DefaultListModel<String> relatedModel;
 
     HomeView homeView = new HomeView();
-
-    public JButton viewTeacherInfoBtn;
-    public JButton viewTeacherCoursesBtn;
-    public JButton viewTeacherStudentsBtn;
-    public JButton createEnrollmentBtn;
-    public JButton deleteEnrollmentBtn;
-    public JButton updateEnrollmentBtn;
-    public JButton generateReportBtn;
-
-    public JPanel panelTeacher;
-
-    public JTextField teacherNameText;
-    public JTextField teacherIdText;
-    public JTextField courseIdText;
-    public JTextField studentEnrolIdText;
-    public JTextField courseEnrolIdText;
-    public JTextField enrollIdText;
-    public JTextField examIdText;
-
-    public JTextArea areaInfo;
-
-    public JScrollPane scrollPane;
 
     public AdminView() {
         initialize();
     }
 
-    public void setTeacherViewInfoListener(ActionListener actionListener) {
-        viewTeacherInfoBtn.addActionListener(actionListener);
+    public void setAdminUpdateProfileListener(ActionListener actionListener) {
+        updateAdminBtn.addActionListener(actionListener);
     }
 
-    public void setTeacherViewCourseListener(ActionListener actionListener) {
-        viewTeacherCoursesBtn.addActionListener(actionListener);
+    public void setAdminDeleteProfileListener(ActionListener actionListener) {
+        deleteAdminBtn.addActionListener(actionListener);
     }
 
-    public void setTeacherViewStudentsListener(ActionListener actionListener) {
-        viewTeacherStudentsBtn.addActionListener(actionListener);
+    public void setchooseRelatedArticlesBtnListener(ActionListener actionListener) {
+        chooseRelatedArticlesBtn.addActionListener(actionListener);
     }
 
-    public void setTeacherEnrollListener(ActionListener actionListener) {
-        createEnrollmentBtn.addActionListener(actionListener);
+    public void setPublishListener(ActionListener actionListener) {
+        addTvShowBtn.addActionListener(actionListener);
     }
 
-    public void setTeacherDeleteEnrollListener(ActionListener actionListener) {
-        deleteEnrollmentBtn.addActionListener(actionListener);
-    }
-
-    public void setTeacherUpdateEnrollListener(ActionListener actionListener) {
-        updateEnrollmentBtn.addActionListener(actionListener);
-    }
-
-    public void setGenerateReportListener(ActionListener actionListener) {
-        generateReportBtn.addActionListener(actionListener);
+    public void chooseRelatedArticlesListener(ActionListener actionListener) {
+        chooseRelatedArticlesBtn.addActionListener(actionListener);
     }
 
     private void initialize() {
+        adminFrame = new JFrame();
+        adminFrame.setBounds(0, 0, 1050, 450);
+        adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        adminFrame.getContentPane().setLayout(null);
+        adminFrame.setTitle("Admin");
+        adminFrame.setLocationRelativeTo(null);
 
-        panelTeacher = new JPanel();
-        panelTeacher.setBounds(0, 45, 550, 312);
-        panelTeacher.setLayout(null);
-        homeView.frame.getContentPane().add(panelTeacher);
-        panelTeacher.setVisible(false);
+        adminPanel = new JPanel();
+        adminPanel.setBounds(0, 0, 1050, 450);
+        adminPanel.setLayout(null);
+        adminFrame.add(adminPanel);
 
-        viewTeacherInfoBtn = new JButton("View info");
-        viewTeacherInfoBtn.setBounds(115, 10, 120, 20);
-        panelTeacher.add(viewTeacherInfoBtn);
+        passwordNewText = new JTextField("New password");
+        passwordNewText.setBounds(10, 350, 120, 20);
+        adminPanel.add(passwordNewText);
 
-        viewTeacherCoursesBtn = new JButton("View courses");
-        viewTeacherCoursesBtn.setBounds(115, 55, 120, 20);
-        panelTeacher.add(viewTeacherCoursesBtn);
+        tvShowName = new JTextField("TV Show Name");
+        tvShowName.setBounds(10, 50, 120, 20);
+        adminPanel.add(tvShowName);
 
-        viewTeacherStudentsBtn = new JButton("View students");
-        viewTeacherStudentsBtn.setBounds(115, 80, 120, 20);
-        panelTeacher.add(viewTeacherStudentsBtn);
+        tvShowDescription = new JTextField("TV Show Description");
+        tvShowDescription.setBounds(10, 150, 120, 20);
+        adminPanel.add(tvShowDescription);
 
-        createEnrollmentBtn = new JButton("Enroll");
-        createEnrollmentBtn.setBounds(115, 150, 120, 20);
-        panelTeacher.add(createEnrollmentBtn);
+        updateAdminBtn = new JButton("Update profile");
+        updateAdminBtn.setBounds(140, 350, 120, 20);
+        adminPanel.add(updateAdminBtn);
 
-        deleteEnrollmentBtn = new JButton("Delete enroll");
-        deleteEnrollmentBtn.setBounds(115, 200, 120, 20);
-        panelTeacher.add(deleteEnrollmentBtn);
+        deleteAdminBtn = new JButton("Delete profile");
+        deleteAdminBtn.setBounds(270, 350, 120, 20);
+        adminPanel.add(deleteAdminBtn);
 
-        updateEnrollmentBtn = new JButton("Update grade");
-        updateEnrollmentBtn.setBounds(115, 230, 120, 20);
-        panelTeacher.add(updateEnrollmentBtn);
+        addTvShowBtn = new JButton("Add TV Show");
+        addTvShowBtn.setBounds(800, 340, 190, 30);
+        adminPanel.add(addTvShowBtn);
 
-        generateReportBtn = new JButton("Gen. report");
-        generateReportBtn.setBounds(115, 115, 120, 20);
-        panelTeacher.add(generateReportBtn);
+        relatedModel = new DefaultListModel<>();
+        relatedList = new JList<>(relatedModel);
+        relatedList.setBounds(800, 40, 200, 250);
+        relatedList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        relatedList.setLayoutOrientation(JList.VERTICAL);
+        adminPanel.add(relatedList);
 
-
-        teacherNameText = new JTextField("Teacher name");
-        teacherNameText.setBounds(10, 10, 100, 20);
-        panelTeacher.add(teacherNameText);
-
-        teacherIdText = new JTextField("Teacher id");
-        teacherIdText.setBounds(10, 55, 100, 20);
-        panelTeacher.add(teacherIdText);
-
-        courseIdText = new JTextField("Course id");
-        courseIdText.setBounds(10, 80, 100, 20);
-        panelTeacher.add(courseIdText);
-
-        studentEnrolIdText = new JTextField("Student id");
-        studentEnrolIdText.setBounds(10, 140, 100, 20);
-        panelTeacher.add(studentEnrolIdText);
-
-        courseEnrolIdText = new JTextField("Course id");
-        courseEnrolIdText.setBounds(10, 160, 100, 20);
-        panelTeacher.add(courseEnrolIdText);
-
-        enrollIdText = new JTextField("Enroll id");
-        enrollIdText.setBounds(10, 200, 100, 20);
-        panelTeacher.add(enrollIdText);
-
-        examIdText = new JTextField("New grade");
-        examIdText.setBounds(10, 230, 100, 20);
-        panelTeacher.add(examIdText);
-
-        areaInfo = new JTextArea();
-        areaInfo.setBounds(250, 10, 245, 245);
-
-        scrollPane = new JScrollPane(areaInfo);
-        scrollPane.setBounds(250, 10, 245, 245);
-        panelTeacher.add(scrollPane);
+        listScrollPane = new JScrollPane(relatedList);
+        listScrollPane.setBounds(800, 40, 200, 250);
+        listScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        adminPanel.add(listScrollPane);
 
     }
 
